@@ -3,6 +3,7 @@ version: '3.7'
 # starts 4 docker containers running minio server instances.
 # using nginx reverse proxy, load balancing, you can access
 # it through port 9000.
+
 services:
   minio:
     image: minio/minio:latest
@@ -14,3 +15,29 @@ services:
       MINIO_ROOT_USER: minio
       MINIO_ROOT_PASSWORD: minio123
     command: server /data
+  db:
+    restart: always
+    image: mysql/mysql-server:5.7.28
+    container_name: mlflow_db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=mlflow
+      - MYSQL_USER=mlflowuser
+      - MYSQL_PASSWORD=myflowpass
+      - MYSQL_ROOT_PASSWORD=rootpass
+    volumes:
+      - dbdata:/var/lib/mysql
+  mlflow:
+    restart: always
+    build: ./mlflow
+    container_name: mlflow_server
+    ports:
+      - "5000:5000"
+    environment:
+      - AWS_ACCESS_KEY_ID=minio
+      - AWS_SECRET_ACCESS_KEY=minio123
+    command: mlflow server --backend-store-uri mysql+pymysql://mlflowuser:myflowpass@db:3306/mlflow --default-artifact-root https://127.0.0.1:9000 --host 0.0.0.0        
+
+volumes:
+  dbdata:
