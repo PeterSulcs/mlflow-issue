@@ -7,6 +7,7 @@ version: '3.7'
 services:
   minio:
     image: minio/minio:latest
+    container_name: s3
     volumes:
       - /home/psulcs/Code/mlflow-issue/config:/root/.minio
     ports:
@@ -37,7 +38,7 @@ services:
     environment:
       - AWS_ACCESS_KEY_ID=minio
       - AWS_SECRET_ACCESS_KEY=minio123
-    command: mlflow server --backend-store-uri mysql+pymysql://mlflowuser:myflowpass@db:3306/mlflow --default-artifact-root https://127.0.0.1:9000 --host 0.0.0.0        
+    command: mlflow server --backend-store-uri mysql+pymysql://mlflowuser:myflowpass@db:3306/mlflow --default-artifact-root s3://mlflow/ --host 0.0.0.0        
 
 volumes:
   dbdata:
