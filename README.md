@@ -44,4 +44,4 @@ Score: 0.6666666666666666
 Model saved in run a9c1470d81714a1d880b47ea64477afa
 ```
 
-The artifacts can be viewed in the [MLFlow UI](http://127.0.0.1:5000) or [Minio UI](https://127.0.0.1:9000)
+The artifacts can be viewed in the [MLFlow UI](http://127.0.0.1:5000) or [Minio UI](https://127.0.0.1:9000/minio)
