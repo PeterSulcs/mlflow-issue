@@ -38,6 +38,7 @@ services:
     environment:
       - AWS_ACCESS_KEY_ID=minio
       - AWS_SECRET_ACCESS_KEY=minio123
+      - MLFLOW_S3_ENDPOINT_URL=https://s3:9000
     command: mlflow server --backend-store-uri mysql+pymysql://mlflowuser:myflowpass@db:3306/mlflow --default-artifact-root s3://mlflow/ --host 0.0.0.0        
 
 volumes:
